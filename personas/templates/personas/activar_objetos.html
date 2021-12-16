@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %} {{ page }} {% endblock title %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <div class="page">
+      <div class="page-header">
+        <h1 class="page-title"><i class="material-icons">{{ icon }}</i> {{ page }}: {{ item }}</h1>
+      </div>
+      <div class="page-content">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-body">
+                <p class="card-text">Se activará el elemento <strong>{{ singular }}: "{{ item }}". </strong></p>
+                <p class="card-text">{{ description }}</p>
+                <p class="card-text">¿Está seguro/a?</p>
+
+                  <form action="" method="POST">
+                  {% csrf_token %}
+                    <div class="text-right">
+                      <hr />
+                      <a href="javascript: history.go(-1)" class="btn btn-default btn-round"><i class="icon md-undo" aria-hidden="true"></i> Atrás </a>
+                      <button type="submit" class="btn btn-success btn-round"><i class="icon md-check" aria-hidden="true"></i> Activar </button>
+                    </div>
+                  </form>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>  
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+{% endblock javascripts %}

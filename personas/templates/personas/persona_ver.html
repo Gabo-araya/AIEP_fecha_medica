@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %} {{ page }} {% endblock title %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <div class="page">
+      <div class="page-header">
+        <h1 class="page-title"><i class="material-icons">{{ icon }}</i> {{ page }}</h1>
+      </div>
+      <div class="page-content">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+
+              <div class="card-body">
+
+                <h4 class="card-title">Identificación</h4>
+
+
+                  {% if item.invertir_apellidos == False %}
+
+                    {% if item.primer_nombre %}
+                      <div><strong>Nombre completo:</strong> 
+                        <a href="{% url url_ver item.id %}">{{ item.primer_nombre }} {% if item.otros_nombres %} {{ item.otros_nombres }} {% endif %} {{ item.apellido_paterno }} {{ item.apellido_materno }}</a>
+                      {% if item.activo == True %}
+                        <span class="badge badge-success">Activo</span>
+                      {% else %}
+                        <span class="badge badge-warning">Inactivo</span>
+                      {% endif %}
+                      </div>
+                    {% endif %}
+
+                  {% else %}
+
+                    {% if item.primer_nombre %}
+                      <div><strong>Nombre completo:</strong> 
+                        {{ item.primer_nombre }} {% if item.otros_nombres %} {{ item.otros_nombres }} {% endif %} {{ item.apellido_materno }} {{ item.apellido_paterno }}
+                        <span class="badge badge-default">Apellidos invertidos</span>
+                      {% if item.activo == False %}
+                        <span class="badge badge-success">Activo</span>
+                      {% else %}
+                        <span class="badge badge-warning">Inactivo</span>
+                      {% endif %}
+                      </div>
+                    {% endif %}
+
+                  {% endif %}
+
+                  {% if item.rut %}
+                    <div><strong>RUT:</strong> {{ item.rut }}</div>
+                  {% endif %}  
+
+                  {% if item.estado_civil %}
+                    <div><strong>Estado civil:</strong> {{ item.estado_civil }}</div>
+                  {% endif %}
+
+                  {% if item.fecha_nac %}
+                    <div><strong>Fecha de nacimiento:</strong> {{ item.fecha_nac }}</div>
+                  {% endif %}
+
+                  {% if item.fono_fijo %}
+                    <div><strong>Teléfono fijo:</strong> {{ item.fono_fijo }}</div>
+                  {% endif %}
+
+                  {% if item.fono_movil1 %}
+                    <div><strong>Teléfono móvil 1:</strong> {{ item.fono_movil1 }}</div>
+                  {% endif %}
+
+                  {% if item.fono_movil2 %}
+                    <div><strong>Teléfono móvil 2:</strong> {{ item.fono_movil2 }}</div>
+                  {% endif %}
+
+                  {% if item.email %}
+                    <div><strong>E-mail:</strong> {{ item.email }}</div>
+                  {% endif %}
+
+                  {% if item.direccion %}
+                    <div><strong>Dirección:</strong> {{ item.direccion }}</div>
+                  {% endif %}
+
+                  {% if item.ciudad %}
+                    <div><strong>Ciudad:</strong> {{ item.ciudad }}</div>
+                  {% endif %}
+
+                  {% if item.observaciones %}
+                  <div class="card border border-info">
+                    <div class="card-block">
+                      <h5 class="card-title">Observaciones</h5>
+                      <p class="card-text">{{ item.observaciones }}</p>
+                    </div>
+                  </div>
+                  {% endif %}
+                  {% if item.deleted != None %}<div class="card-body border border-danger"><small><strong>Desactivado en:</strong> {{item.deleted}} </small></div>{% endif %}
+
+
+
+                {% if item.deleted != None %}<hr /><div><small><strong>Desactivado en:</strong> {{item.deleted}} </small></div>{% endif %}
+
+
+                <div class="card-text text-right">
+                  <hr/>
+                  <a href="{% url url_activo_index %}" class="btn btn-primary btn-round waves-effect waves-classic" title="Ver todo">
+                    <i class="icon md-view-list-alt" aria-hidden="true"></i> Ver todo</a>
+                  <a href="{% url url_editar item.id %}" class="btn btn-info btn-round waves-effect waves-classic" title="Editar">
+                    <i class="icon md-edit" aria-hidden="true"></i> Editar</a>
+                {% if item.activo == True %}  
+                  <a href="{% url url_desactivar item.id %}" class="btn btn-warning btn-round btn-icon waves-effect waves-classic" title="Desactivar">
+                    <i class="icon md-delete" aria-hidden="true"></i> Desactivar</a>
+                {% else %}  
+                  <a href="{% url url_activar item.id %}" class="btn btn-success btn-round btn-icon waves-effect waves-classic" title="Activar">
+                    <i class="icon md-check" aria-hidden="true"></i> Activar</a>
+                {% endif %}  
+                  <a href="{% url url_eliminar item.id %}" class="btn btn-danger btn-round btn-icon waves-effect waves-classic" title="Eliminar">
+                    <i class="icon md-delete" aria-hidden="true"></i> Eliminar</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>  
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+{% endblock javascripts %}
