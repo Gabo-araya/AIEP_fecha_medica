@@ -12,28 +12,28 @@
 
       <div class="page-header">
         <h1 class="page-title"><i class="material-icons">{{ icon }}</i> {{ page }}</h1>
+        
         <div class="page-header-actions">
-
-                {% if 'inactiv' in request.path %} 
-          <a href="{% url url_activo_index %}" class="btn btn-success btn-round btn-icon" data-toggle="tooltip" data-original-title="Ver {{ plural }} activas"><i class="icon md-check" aria-hidden="true"></i></a>
-                {% else %}  
-          <a href="{% url url_inactivo_index %}" class="btn btn-warning btn-round btn-icon" data-toggle="tooltip" data-original-title="Ver {{ plural }} inactivas"><i class="icon md-delete" aria-hidden="true"></i></a>
-                {% endif %}
-          <a href="{% url url_crear %}" class="btn btn-primary btn-round btn-icon" data-toggle="tooltip" data-original-title="Agregar {{ singular }}"><i class="icon md-plus-circle" aria-hidden="true"></i> </a>
-
+          {% if 'inactiv' in request.path %} 
+            <a href="{% url url_activo_index %}" class="btn btn-success btn-round btn-icon" data-toggle="tooltip"><i class="icon md-check" aria-hidden="true"></i> Ver {{ plural }} activos</a>
+          {% else %}  
+            <a href="{% url url_inactivo_index %}" class="btn btn-warning btn-round btn-icon" data-toggle="tooltip"><i class="icon md-delete" aria-hidden="true"></i> Ver {{ plural }} inactivos</a>
+          {% endif %}
+            <a href="{% url url_crear %}" class="btn btn-primary btn-round btn-icon" data-toggle="tooltip"><i class="icon md-plus-circle" aria-hidden="true"></i> Agregar {{ singular }}</a>
+          </div>
         </div>
-      </div>
-      
-      <div class="page-header">
-        <div class="page-header-actions">
-          <form class="" method="POST" action="{% url 'persona_buscar' %}">
-            {% csrf_token %}
-            <input class="form-control" id="busqueda" name="busqueda" type="search" placeholder="Buscar" aria-label="Buscar" />
-            <button class=" btn btn-outline-secondary" type="submit">Buscar</button>
-          </form>  
 
+        <div class="card page-header">
+          <div class="page-header-actions">
+            <form class="" method="POST" action="{% url 'persona_buscar' %}">
+              {% csrf_token %}
+              <input class="" id="busqueda" name="busqueda" type="search" placeholder="Buscar" aria-label="Buscar" />
+              <button class=" btn btn-outline-secondary" type="submit">Buscar</button>
+            </form>  
+
+          </div>
         </div>
-      </div>
+
 
       <div class="page-content container-fluid">
 

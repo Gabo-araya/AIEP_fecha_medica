@@ -11,6 +11,18 @@
       <div class="page-header">
         <h1 class="page-title"><i class="material-icons">{{ icon }}</i> {{ page }}</h1>
       </div>
+
+      <div class="card page-header">
+        <div class="page-header-actions">
+          <form class="" method="POST" action="{% url 'persona_buscar' %}">
+            {% csrf_token %}
+            <input class="" id="busqueda" name="busqueda" type="search" placeholder="Buscar" aria-label="Buscar" />
+            <button class=" btn btn-outline-secondary" type="submit">Buscar</button>
+          </form>  
+
+        </div>
+      </div>
+
       <div class="page-content">
         <div class="row">
           <div class="col-md-12">
