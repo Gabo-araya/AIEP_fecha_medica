@@ -272,3 +272,78 @@ def persona_eliminar(request, id, *args, **kwargs):
     }
     return render(request, 'personas/eliminar_objetos.html', context)
 
+
+
+def persona_buscar(request, *args, **kwargs):
+    '''Lista de elementos encontrados con los que se pueden realizar acciones.'''
+
+    #queryset = Persona.objects.all() # Lista de objetos
+    # queryset = Persona.objects.filter(activo=False) # Lista de objetos
+    # cantidad = queryset.count() #necesario para el total
+    # paginator = Paginator(queryset, cantidad_elementos) 
+    # page_number = request.GET.get('pag')
+    # page_obj = paginator.get_page(page_number)
+
+    # queryset = Persona.objects.filter(activo=True)[:50] # escoger los últimos 50
+    # queryset = Persona.objects.all() # Lista de objetos
+    # id_perfil = 1
+    # qs_perfil = PerfilPersonal.objects.filter(id=id_perfil)
+    # qs_perfil = PerfilPersonal.objects.get(id=1)
+
+    # qs_actividadlaboral = ActividadLaboral.objects.filter(erased=False)[:5] 
+    # qs_proyecto = Proyecto.objects.filter(erased=False)[:5] 
+    # qs_actividadacademica = ActividadAcademica.objects.filter(tipo_estudio='CARRERA_PREGRADO') | ActividadAcademica.objects.filter(tipo_estudio='CARRERA_POSGRADO') & ActividadAcademica.objects.filter(erased=False)[:5]
+    # qs_perfeccionamiento = ActividadAcademica.objects.filter(tipo_estudio='PERFECCIONAMIENTO') | ActividadAcademica.objects.filter(tipo_estudio='CURSO') | ActividadAcademica.objects.filter(tipo_estudio='OTRO_ESTUDIO') & ActividadAcademica.objects.filter(erased=False)
+    # qs_perfeccionamiento = qs_perfeccionamiento[:5]  # escoger los últimos 5
+    # qs_area_interes = AreaInteres.objects.filter(erased=False)
+    # qs_tecnologia = Tecnologia.objects.filter(erased=False)
+
+    # print(qs_area_interes)
+    # qs_perfil = PerfilPersonal.objects.filter(erased=False)
+    
+    # print(qs_perfil[0].url_github)
+    # print(qs_perfil.url_github)
+
+    # Lista de objetos
+    # qs_ = PerfilPersonal.objects.filter(activo=True) # Lista de objetos
+    # qs_perfil = PerfilPersonal.objects.filter(activo=True) # Lista de objetos
+    # qs_perfil = PerfilPersonal.objects.filter(activo=True) # Lista de objetos
+    # cantidad = queryset.count() #necesario para el total
+    # cantidad debe traer sólo los elementos activos. 
+    
+    # print(qs_perfeccionamiento[1].fk_tecnologias)
+
+    busqueda = ''
+    resultado = ''
+
+    if request.method == 'POST':
+
+        busqueda = request.POST['busqueda']
+        resultado = Persona.objects.filter(primer_nombre__icontains=busqueda) | Persona.objects.filter(otros_nombres__icontains=busqueda) | Persona.objects.filter(apellido_paterno__icontains=busqueda) | Persona.objects.filter(apellido_materno__icontains=busqueda) | Persona.objects.filter(rut__icontains=busqueda) & Persona.objects.filter(activo=True)
+
+        context = {
+            'page' : 'Fichas médicas encontradas',
+            'description' : '',
+            'icon' : 'person',
+            'singular' : 'ficha médica',
+            'plural' : 'fichas médicas',
+            'url_activo_index' : 'persona_index',
+            'url_inactivo_index' : 'persona_inactivo_index',
+            'url_crear' : 'persona_crear',
+            'url_ver' : 'persona_ver',
+            'url_editar' : 'persona_editar',
+            'url_desactivar' : 'persona_desactivar',
+            'url_activar' : 'persona_activar',
+            'url_eliminar' : 'persona_eliminar',
+            'asdf' : asdf,
+            #'cantidad' : cantidad,
+            'busqueda' : busqueda,
+            'object_list': resultado
+        }
+        #return redirect('persona_buscar')
+        return render(request, 'personas/persona_buscar.html', context)
+    else:
+        return redirect('persona_index')
+
+
+   #  return render(request, 'personas/persona_buscar.html', context)

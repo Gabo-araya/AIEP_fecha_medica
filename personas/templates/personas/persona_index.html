@@ -24,6 +24,17 @@
         </div>
       </div>
       
+      <div class="page-header">
+        <div class="page-header-actions">
+          <form class="" method="POST" action="{% url 'persona_buscar' %}">
+            {% csrf_token %}
+            <input class="form-control" id="busqueda" name="busqueda" type="search" placeholder="Buscar" aria-label="Buscar" />
+            <button class=" btn btn-outline-secondary" type="submit">Buscar</button>
+          </form>  
+
+        </div>
+      </div>
+
       <div class="page-content container-fluid">
 
         <!-- INICIO PAGINACION -->
@@ -70,6 +81,7 @@
         </div>
       {% endif %} 
       <!-- FIN PAGINACION -->
+
 
       {% if object_list %}
 

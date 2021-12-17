@@ -1,0 +1,277 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %} {{ page }} {% endblock title %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+
+    <div class="page">
+
+      <div class="page-header">
+        <h1 class="page-title"><i class="material-icons">{{ icon }}</i> {{ page }}</h1>
+        <div class="page-header-actions">
+
+                {% if 'inactiv' in request.path %} 
+          <a href="{% url url_activo_index %}" class="btn btn-success btn-round btn-icon" data-toggle="tooltip" data-original-title="Ver {{ plural }} activas"><i class="icon md-check" aria-hidden="true"></i></a>
+                {% else %}  
+          <a href="{% url url_inactivo_index %}" class="btn btn-warning btn-round btn-icon" data-toggle="tooltip" data-original-title="Ver {{ plural }} inactivas"><i class="icon md-delete" aria-hidden="true"></i></a>
+                {% endif %}
+          <a href="{% url url_crear %}" class="btn btn-primary btn-round btn-icon" data-toggle="tooltip" data-original-title="Agregar {{ singular }}"><i class="icon md-plus-circle" aria-hidden="true"></i> </a>
+
+        </div>
+      </div>
+      
+      <div class="page-header">
+        <div class="page-header-actions">
+          <form class="" method="POST" action="{% url 'persona_buscar' %}">
+            {% csrf_token %}
+            <input class="form-control" id="busqueda" name="busqueda" type="search" placeholder="Buscar" aria-label="Buscar" />
+            <button class=" btn btn-outline-secondary" type="submit">Buscar</button>
+          </form>  
+
+        </div>
+      </div>
+
+      <div class="page-content container-fluid">
+
+        <!-- INICIO PAGINACION -->
+      {% if object_list.has_next or object_list.has_previous %}
+        <div class="nav-pagination panel-default">      
+          <ul class="pagination text-center">
+                  {% if object_list.has_previous %}
+              <li class="page-item">
+                <a href="?pag=1" class="page-link" aria-label="Primer">&laquo; Primer</a>
+              </li>        
+              <li class="page-item">
+                <a href="?pag={{ object_list.previous_page_number }}" class="page-link" aria-label="Previous">Anterior</a>
+              </li>        
+                  {% else %}
+              <li class="page-item disabled">
+                <a href="#" class="page-link" aria-label="Primer">&laquo; Primer</a>
+              </li>        
+              <li class="page-item disabled">
+                <a href="#" class="page-link" aria-label="Previous">Anterior</a>
+              </li>        
+                  {% endif %}
+
+              <li class="page-item disabled">
+                <span class="page-link">
+                  Página {{ object_list.number }} de {{ object_list.paginator.num_pages }}
+                </span>
+              </li>   
+                  {% if object_list.has_next %}
+              <li class="page-item">
+                <a href="?pag={{ object_list.next_page_number }}" class="page-link" aria-label="Siguiente">Siguiente</a>
+              </li>        
+              <li class="page-item">
+                <a href="?pag={{ object_list.paginator.num_pages }}" class="page-link" aria-label="Ultimo">Último &raquo;</a>
+              </li>       
+                  {% else %} 
+              <li class="page-item disabled">
+                <a href="#" class="page-link" aria-label="Siguiente">Siguiente</a>
+              </li>        
+              <li class="page-item disabled">
+                <a href="#" class="page-link" aria-label="Ultimo">Último &raquo;</a>
+              </li>       
+                  {% endif %}
+          </ul>
+        </div>
+      {% endif %} 
+      <!-- FIN PAGINACION -->
+
+      {% if busqueda %}
+
+        <div class="card">
+            <div class="card-body">
+                El término de búsqueda es: {{ busqueda }}
+            </div>   
+        </div>   
+
+        {% if object_list %}
+
+            <div class="panel">
+                <div class="panel-body">
+
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead class="table-{{ color_table }}">
+                        <tr>
+                            <th>#</th>
+                            <th>{{ plural|capfirst }}</th>
+                            <th>Acciones</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                    {% for item in object_list %}
+                        <tr>
+                            <td> {{ item.id }} </td>
+                            <td>
+
+                            <div class="row">
+
+                                {% if item.invertir_apellidos == False %}
+
+                                {% if item.primer_nombre %}
+                                    <div><strong>Nombre completo:</strong> 
+                                    <a href="{% url url_ver item.id %}">{{ item.primer_nombre }} {% if item.otros_nombres %} {{ item.otros_nombres }} {% endif %} {{ item.apellido_paterno }} {{ item.apellido_materno }}</a>
+                                    {% if item.activo == True %}
+                                    <span class="badge badge-success">Activo</span>
+                                    {% else %}
+                                    <span class="badge badge-warning">Inactivo</span>
+                                    {% endif %}
+                                    </div>
+                                {% endif %}
+
+                                {% else %}
+
+                                {% if item.primer_nombre %}
+                                    <div><strong>Nombre completo:</strong> 
+                                    <a href="{% url url_ver item.id %}">{{ item.primer_nombre }} {% if item.otros_nombres %} {{ item.otros_nombres }} {% endif %} {{ item.apellido_materno }} {{ item.apellido_paterno }}</a>
+                                    <span class="badge badge-default">Apellidos invertidos</span>
+                                    {% if item.activo == False %}
+                                    <span class="badge badge-success">Activo</span>
+                                    {% else %}
+                                    <span class="badge badge-warning">Inactivo</span>
+                                    {% endif %}
+                                    </div>
+                                {% endif %}
+
+                                {% endif %}
+
+                                {% if item.rut %}
+                                <div><strong>RUT:</strong> {{ item.rut }}</div>
+                                {% endif %}  
+
+                                {% if item.fono_fijo %}
+                                <div><strong>Teléfono fijo:</strong> {{ item.fono_fijo }}</div>
+                                {% endif %}
+
+                                {% if item.fono_movil1 %}
+                                <div><strong>Teléfono móvil 1:</strong> {{ item.fono_movil1 }}</div>
+                                {% endif %}
+
+                                {% if item.fono_movil2 %}
+                                <div><strong>Teléfono móvil 2:</strong> {{ item.fono_movil2 }}</div>
+                                {% endif %}
+
+                                {% if item.email %}
+                                <div><strong>E-mail:</strong> {{ item.email }}</div>
+                                {% endif %}
+
+
+                                {% if item.deleted != None %}<div class="card-body border border-danger"><small><strong>Desactivado en:</strong> {{item.deleted}} </small></div>{% endif %}
+
+                            </div>
+                            
+
+
+
+                            </td>
+                            <td> 
+                            <div class="text-center">
+                                <a href="{% url url_ver item.id %}" class="btn btn-primary btn-round btn-icon" title="Revisar" data-toggle="tooltip" data-original-title="Revisar">
+                                <i class="icon md-view-list-alt" aria-hidden="true"></i></a>
+                                <a href="{% url url_editar item.id %}" class="btn btn-info btn-round btn-icon" title="Editar" data-toggle="tooltip" data-original-title="Editar">
+                                <i class="icon md-edit" aria-hidden="true"></i></a>
+                            {% if item.activo == True %}  
+                                <a href="{% url url_desactivar item.id %}" class="btn btn-warning btn-round btn-icon" title="Desactivar" data-toggle="tooltip" data-original-title="Desactivar">
+                                <i class="icon md-delete" aria-hidden="true"></i></a>
+                            {% else %}  
+                                <a href="{% url url_activar item.id %}" class="btn btn-success btn-round btn-icon" title="Activar" data-toggle="tooltip" data-original-title="Activar">
+                                <i class="icon md-check" aria-hidden="true"></i></a>
+                            {% endif %}  
+                                <a href="{% url url_eliminar item.id %}" class="btn btn-danger btn-round btn-icon" title="Eliminar" data-toggle="tooltip" data-original-title="Eliminar">
+                                <i class="icon md-delete" aria-hidden="true"></i></a>
+                            </div>  
+                            </td>
+                        </tr>
+                    {% endfor %} 
+                    </tbody>
+                    </table>
+                </div>
+                </div>
+            </div>
+
+        {% else %}
+
+        <div class="alert alert-warning fade show" role="alert">
+            No se encontraron resultados.
+        </div>
+
+        {% endif %}
+      {% else %}
+
+          <div class="alert alert-warning fade show" role="alert">
+            Debe ingresar una búqueda.  
+          </div>
+
+      {% endif %}
+      
+      <!-- INICIO PAGINACION -->
+      {% if object_list.has_next or object_list.has_previous %}
+        <div class="nav-pagination panel-default">      
+          <ul class="pagination text-center">
+                  {% if object_list.has_previous %}
+              <li class="page-item">
+                <a href="?pag=1" class="page-link" aria-label="Primer">&laquo; Primer</a>
+              </li>        
+              <li class="page-item">
+                <a href="?pag={{ object_list.previous_page_number }}" class="page-link" aria-label="Previous">Anterior</a>
+              </li>        
+                  {% else %}
+              <li class="page-item disabled">
+                <a href="#" class="page-link" aria-label="Primer">&laquo; Primer</a>
+              </li>        
+              <li class="page-item disabled">
+                <a href="#" class="page-link" aria-label="Previous">Anterior</a>
+              </li>        
+                  {% endif %}
+
+              <li class="page-item disabled">
+                <span class="page-link">
+                  Página {{ object_list.number }} de {{ object_list.paginator.num_pages }}
+                </span>
+              </li>   
+                  {% if object_list.has_next %}
+              <li class="page-item">
+                <a href="?pag={{ object_list.next_page_number }}" class="page-link" aria-label="Siguiente">Siguiente</a>
+              </li>        
+              <li class="page-item">
+                <a href="?pag={{ object_list.paginator.num_pages }}" class="page-link" aria-label="Ultimo">Último &raquo;</a>
+              </li>       
+                  {% else %} 
+              <li class="page-item disabled">
+                <a href="#" class="page-link" aria-label="Siguiente">Siguiente</a>
+              </li>        
+              <li class="page-item disabled">
+                <a href="#" class="page-link" aria-label="Ultimo">Último &raquo;</a>
+              </li>       
+                  {% endif %}
+          </ul>
+        </div>
+      {% endif %} 
+      <!-- FIN PAGINACION -->
+        <hr />
+        <div class="text-right">
+                {% if 'inactiv' in request.path %} 
+          <a href="{% url url_activo_index %}" class="btn btn-success btn-round"><i class="icon md-check" aria-hidden="true"></i> Ver {{ plural }} activos</a>
+                {% else %}  
+          <a href="{% url url_inactivo_index %}" class="btn btn-warning btn-round"><i class="icon md-delete" aria-hidden="true"></i> Ver {{ plural }} inactivos</a>
+                {% endif %}
+          <a href="{% url url_crear %}" class="btn btn-primary btn-round"><i class="icon md-plus-circle" aria-hidden="true"></i> Agregar {{ singular }}</a>
+        </div>
+      </div>
+
+    </div>
+
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+{% endblock javascripts %}

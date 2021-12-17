@@ -15,6 +15,7 @@ urlpatterns = [
     path('activar_ficha_medica/<int:id>/', personas.views.persona_activar, name='persona_activar'),
     path('desactivar_ficha_medica/<int:id>/', personas.views.persona_desactivar, name='persona_desactivar'),
     path('eliminar_ficha_medica/<int:id>/', personas.views.persona_eliminar, name='persona_eliminar'),
+    path('buscar_ficha_medica/', personas.views.persona_buscar, name='persona_buscar'),
 
 
 ]
