@@ -89,7 +89,7 @@ _Estas son las herramientas que hemos utilizado en nuestro proyecto_
 ## Autores ✒️
 
 * **Gabo Araya** - *BackEnd y documentación* - [Gabo-araya](https://github.com/Gabo-araya/)
-* **Lucas Rubilar** - *FrontEnd y documentación* - [Lucas ](https://github.com/Gabo-araya/)
+* **Lucas Rubilar** - *FrontEnd y documentación* - [LksDesings](https://github.com/LksDesings/)
 * **David Torcates** - *FrontEnd y documentación* - [DavidTorcates](https://github.com/DavidTorcates/)
 
 También puedes mirar la lista de todos los [contribuyentes](https://github.com/your/project/contributors) quíenes han participado en este proyecto.
