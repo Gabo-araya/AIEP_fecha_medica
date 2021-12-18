@@ -11,6 +11,7 @@ _Esta es una lista de los paquetes que deben estar instalados previamente:_
 * Python 3
 	- Lenguaje de programación
 	- [Ayuda - https://docs.microsoft.com/en-us/windows/python/beginners)](https://docs.microsoft.com/en-us/windows/python/beginners)
+	- [Curso Django desde Cero en youtube](https://www.youtube.com/watch?v=vo4VF3neyrs)
 * Pip
 	- Gestor de instalación de paquetes PIP
 	- [Ayuda - https://tecnonucleous.com/2018/01/28/como-instalar-pip-para-python-en-windows-mac-y-linux/](https://tecnonucleous.com/2018/01/28/como-instalar-pip-para-python-en-windows-mac-y-linux/)
@@ -75,6 +76,8 @@ Seguir los siguientes pasos para la instalación local.
 ## Despliegue 📦
 
 _Aquí van notas adicionales sobre como hacer deploy_
+
+Para el despliegue en Google Cloud Platform, seguir los pasos que aparecen acá: [https://bennettgarner.medium.com/deploying-a-django-application-to-google-app-engine-f9c91a30bd35](https://bennettgarner.medium.com/deploying-a-django-application-to-google-app-engine-f9c91a30bd35)
 
 ## Construido con 🛠️
 
