@@ -22,6 +22,11 @@ body {
 .blue-text {
     color: #00BCD4
 }
+
+h1, h2 {
+    font-family: 'Bree Serif', serif;
+}
+
 /*
 .form-control-label {
     margin-bottom: 0

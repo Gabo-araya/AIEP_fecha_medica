@@ -5,6 +5,12 @@ import personas.views
 urlpatterns = [
     path('', personas.views.index, name='url_index'),
 
+#login 
+
+    path('entrar/', personas.views.entrar, name='entrar'),
+    path('salir/', personas.views.salir, name='salir'),
+    path('crear_usuario/', personas.views.crear_usuario, name='crear_usuario'),
+
 
 #persona
     path('listar_ficha_medica/', personas.views.persona_index, name='persona_index'),

@@ -7,20 +7,10 @@
 
 {% block content %}
 
-    <div class="page">
-      <div class="page-header">
-        <h1 class="page-title"><i class="material-icons">{{ icon }}</i> {{ page }}</h1>
-      </div>
-
       <div class="card page-header">
-        <div class="page-header-actions">
-          <form class="" method="POST" action="{% url 'persona_buscar' %}">
-            {% csrf_token %}
-            <input class="" id="busqueda" name="busqueda" type="search" placeholder="Buscar" aria-label="Buscar" />
-            <button class=" btn btn-outline-secondary" type="submit">Buscar</button>
-          </form>  
-
-        </div>
+        <h2 class="page-title"><i class="material-icons">{{ icon }}</i> {{ page }}</h2> 
+        <hr/>
+        <p class="card-text">{{ description }}</p>
       </div>
 
       <div class="page-content">
@@ -115,18 +105,18 @@
 
                 <div class="card-text text-right">
                   <hr/>
-                  <a href="{% url url_activo_index %}" class="btn btn-primary btn-round waves-effect waves-classic" title="Ver todo">
+                  <a href="{% url url_activo_index %}" class="btn btn-outline-secondary btn-round waves-effect waves-classic" title="Ver todo">
                     <i class="icon md-view-list-alt" aria-hidden="true"></i> Ver todo</a>
-                  <a href="{% url url_editar item.id %}" class="btn btn-info btn-round waves-effect waves-classic" title="Editar">
+                  <a href="{% url url_editar item.id %}" class="btn btn-outline-info btn-round waves-effect waves-classic" title="Editar">
                     <i class="icon md-edit" aria-hidden="true"></i> Editar</a>
                 {% if item.activo == True %}  
-                  <a href="{% url url_desactivar item.id %}" class="btn btn-warning btn-round btn-icon waves-effect waves-classic" title="Desactivar">
+                  <a href="{% url url_desactivar item.id %}" class="btn btn-outline-warning btn-round btn-icon waves-effect waves-classic" title="Desactivar">
                     <i class="icon md-delete" aria-hidden="true"></i> Desactivar</a>
                 {% else %}  
-                  <a href="{% url url_activar item.id %}" class="btn btn-success btn-round btn-icon waves-effect waves-classic" title="Activar">
+                  <a href="{% url url_activar item.id %}" class="btn btn-outline-success btn-round btn-icon waves-effect waves-classic" title="Activar">
                     <i class="icon md-check" aria-hidden="true"></i> Activar</a>
                 {% endif %}  
-                  <a href="{% url url_eliminar item.id %}" class="btn btn-danger btn-round btn-icon waves-effect waves-classic" title="Eliminar">
+                  <a href="{% url url_eliminar item.id %}" class="btn btn-outline-danger btn-round btn-icon waves-effect waves-classic" title="Eliminar">
                     <i class="icon md-delete" aria-hidden="true"></i> Eliminar</a>
                 </div>
               </div>
@@ -134,7 +124,7 @@
           </div>
         </div>
       </div>
-    </div>  
+
 
 {% endblock content %}
 

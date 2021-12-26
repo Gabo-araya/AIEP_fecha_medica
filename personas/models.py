@@ -20,7 +20,7 @@ class Persona(models.Model):
 
     rut = models.CharField(max_length=10, null=True, blank=True, verbose_name='Rut', help_text='Rut con dígito verificador. Formato: 12345678-9')
     estado_civil = models.CharField(max_length=50, null=True, blank=True, verbose_name='Estado Civil', help_text='')
-    fecha_nac = models.DateField(null=True, blank=True, verbose_name='Fecha de nacimiento', help_text='Fecha de nacimiento.')
+    fecha_nac = models.DateField(null=True, blank=True, verbose_name='Fecha de nacimiento', help_text='')
 
     fono_fijo = models.CharField(max_length=10, null=True, blank=True, verbose_name='Teléfono Fijo', help_text='Formato: 12 3456 7890')
     fono_movil1 = models.CharField(max_length=9, null=True, blank=True, verbose_name='Teléfono Móvil 1', help_text='Formato: 9 1234 5678')

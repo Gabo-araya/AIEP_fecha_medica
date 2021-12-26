@@ -2,16 +2,82 @@ from django.shortcuts import redirect, render
 from django.http import HttpResponse, request
 from django.core.paginator import Paginator
 from personas.models import Persona
-from personas.forms import Persona_Form
+from personas.forms import Persona_Form, CustomUserCreationForm
 import calendar, datetime
+
+
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+
 
 # define la cantidad de elementos de la página inicial
 cantidad_elementos = '5'
 asdf = ''
 
+# ======================================
+# LOGIN Y REGISTRO
+# ======================================
 
+def entrar(request, *args, **kwargs):
+    '''Página de Lotin del sitio web. '''
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            return redirect('url_index')
+
+    context = {
+        # 'cantidad' : cantidad,
+        'page' : 'Acceso a Sistema de Fichas Médicas',
+    }
+
+    return render(request, 'login.html', context)
+
+
+
+def salir(request, *args, **kwargs):
+    logout(request)
+    return redirect('entrar')
+
+
+
+@login_required(login_url='entrar')
+def crear_usuario(request, *args, **kwargs):
+
+    form = CustomUserCreationForm()
+
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.save()
+
+            if user is not None:
+                login(request, user)
+                return redirect('url_index')
+
+    context = {
+        # 'cantidad' : cantidad,
+        'page' : 'Crear usuario',
+        'form': form,
+    }
+
+    return render(request, 'personas/generic_form.html', context)
+
+
+
+
+# ======================================
+# PAGINAS GENERALES
+# ======================================
+
+@login_required(login_url='entrar')
 def index(request, *args, **kwargs):
-    '''Página inicial del sitio web.'''
+    '''Página inicial del sitio web. Debe contener vínculos a los usuarios y a las fichas médicas.'''
    
     queryset = Persona.objects.filter(activo=True)[:50] # escoger los últimos 50
     # queryset = Persona.objects.all() # Lista de objetos
@@ -71,7 +137,11 @@ def index(request, *args, **kwargs):
     return render(request, 'personas/persona_index.html', context)
 
 
+# ======================================
+# PERSONAS
+# ======================================
 
+@login_required(login_url='entrar')
 def persona_index(request, *args, **kwargs):
     '''Página inicial del sitio web.'''
    
@@ -81,7 +151,7 @@ def persona_index(request, *args, **kwargs):
     context = {
         # 'cantidad' : cantidad,
         'page' : 'Fichas médicas',
-        'description' : '',
+        'description' : 'Se puede ver la lista de fichas médicas',
         'icon' : 'person',
         'singular' : 'ficha médica',
         'plural' : 'fichas médicas',
@@ -100,6 +170,8 @@ def persona_index(request, *args, **kwargs):
     return render(request, 'personas/persona_index.html', context)
 
 
+
+@login_required(login_url='entrar')
 def persona_inactivo_index(request, *args, **kwargs):
     '''Lista de elementos inactivos con las que se pueden realizar acciones.'''
     #queryset = Persona.objects.all() # Lista de objetos
@@ -130,38 +202,14 @@ def persona_inactivo_index(request, *args, **kwargs):
 
 
 
-def persona_crear(request, *args, **kwargs):
-    '''Sirve para crear un elemento.'''
-    form = Persona_Form
-
-    if request.method == 'POST':
-        form = Persona_Form(request.POST, request.FILES)
-        if form.is_valid():
-            #print('form')
-
-            form.save()
-            return redirect('persona_index')
-
-    context = {
-        'page' : 'Crear ficha médica',
-        'description' : '',
-        'icon' : 'person',
-        'singular' : 'ficha médica',
-        'plural' : 'fichas médicas',
-        'asdf' : asdf,
-        'form': form,
-    }
-    return render(request, 'personas/generic_form.html', context)
-
-
-
+@login_required(login_url='entrar')
 def persona_ver(request, id, *args, **kwargs):
     '''Sirve para revisar un elemento.'''
     itemObj = Persona.objects.get(id=id)
     
     context = {
         'page' : 'Revisar ficha médica',
-        'description' : '',
+        'description' : 'Se pueden ver todas las características de la ficha médica',
         'singular' : 'ficha médica',
         'plural' : 'fichas médicas',
         'url_activo_index' :'persona_index',
@@ -178,6 +226,34 @@ def persona_ver(request, id, *args, **kwargs):
     return render(request, 'personas/persona_ver.html', context)
 
 
+
+@login_required(login_url='entrar')
+def persona_crear(request, *args, **kwargs):
+    '''Sirve para crear un elemento.'''
+    form = Persona_Form
+
+    if request.method == 'POST':
+        form = Persona_Form(request.POST, request.FILES)
+        if form.is_valid():
+            #print('form')
+
+            form.save()
+            return redirect('persona_index')
+
+    context = {
+        'page' : 'Crear ficha médica',
+        'description' : 'Rellene el formulario y presione el botón guardar para crear una nueva ficha médica.',
+        'icon' : 'person',
+        'singular' : 'ficha médica',
+        'plural' : 'fichas médicas',
+        'asdf' : asdf,
+        'form': form,
+    }
+    return render(request, 'personas/generic_form.html', context)
+
+
+
+@login_required(login_url='entrar')
 def persona_editar(request, id, *args, **kwargs):
     '''Sirve para editar un elemento.'''
     itemObj = Persona.objects.get(id=id)
@@ -193,7 +269,7 @@ def persona_editar(request, id, *args, **kwargs):
 
     context = {
         'page' : 'Editar ficha médica',
-        'description' : '',
+        'description' : 'Realice las modificaciones que estime convenientes.',
         'icon' : 'person',
         'singular' : 'ficha médica',
         'plural' : 'fichas médicas',
@@ -204,6 +280,8 @@ def persona_editar(request, id, *args, **kwargs):
     return render(request, 'personas/generic_form.html', context)
 
 
+
+@login_required(login_url='entrar')
 def persona_activar(request, id, *args, **kwargs):
     '''Sirve para activar un elemento.'''
     itemObj = Persona.objects.get(id=id)
@@ -227,6 +305,8 @@ def persona_activar(request, id, *args, **kwargs):
     return render(request, 'personas/activar_objetos.html', context)
 
 
+
+@login_required(login_url='entrar')
 def persona_desactivar(request, id, *args, **kwargs):
     '''Sirve para desactivar un elemento.'''
     itemObj = Persona.objects.get(id=id)
@@ -252,6 +332,8 @@ def persona_desactivar(request, id, *args, **kwargs):
     return render(request, 'personas/desactivar_objetos.html', context)
 
 
+
+@login_required(login_url='entrar')
 def persona_eliminar(request, id, *args, **kwargs):
     '''Sirve para eliminar un elemento.'''
     itemObj = Persona.objects.get(id=id)
@@ -274,6 +356,7 @@ def persona_eliminar(request, id, *args, **kwargs):
 
 
 
+@login_required(login_url='entrar')
 def persona_buscar(request, *args, **kwargs):
     '''Lista de elementos encontrados con los que se pueden realizar acciones.'''
 

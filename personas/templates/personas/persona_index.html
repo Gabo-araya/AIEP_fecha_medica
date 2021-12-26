@@ -7,33 +7,37 @@
 
 {% block content %}
 
-
-    <div class="page">
-
-      <div class="page-header">
-        <h1 class="page-title"><i class="material-icons">{{ icon }}</i> {{ page }}</h1>
-        
+      <div class="card page-header">
+        <h2 class="page-title"><i class="material-icons">{{ icon }}</i> {{ page }}</h2>
+        <hr/>
+        <p class="card-text">{{ description }} Total fichas médicas: {{ count }}</p>
         <div class="page-header-actions">
+          <p class="card-text">
           {% if 'inactiv' in request.path %} 
-            <a href="{% url url_activo_index %}" class="btn btn-success btn-round btn-icon" data-toggle="tooltip"><i class="icon md-check" aria-hidden="true"></i> Ver {{ plural }} activos</a>
-          {% else %}  
-            <a href="{% url url_inactivo_index %}" class="btn btn-warning btn-round btn-icon" data-toggle="tooltip"><i class="icon md-delete" aria-hidden="true"></i> Ver {{ plural }} inactivos</a>
-          {% endif %}
-            <a href="{% url url_crear %}" class="btn btn-primary btn-round btn-icon" data-toggle="tooltip"><i class="icon md-plus-circle" aria-hidden="true"></i> Agregar {{ singular }}</a>
-          </div>
+          <a href="{% url url_activo_index %}" class="btn btn-outline-success btn-round btn-icon" data-toggle="tooltip">
+            <i class="icon md-check" aria-hidden="true"></i> 
+            Ver fichas médicas activas
+          </a>
+        {% else %}  
+          <a href="{% url url_inactivo_index %}" class="btn btn-outline-warning btn-round btn-icon" data-toggle="tooltip">
+            <i class="icon md-delete" aria-hidden="true"></i> 
+            Ver fichas médicas inactivas
+          </a>
+        {% endif %}
+          <a href="{% url url_crear %}" class="btn btn-outline-primary btn-round btn-icon" data-toggle="tooltip">
+            <i class="icon md-plus-circle" aria-hidden="true"></i> 
+            Crear ficha médica
+          </a>
+        </p><br />
+          
+          <form class="" method="POST" action="{% url 'persona_buscar' %}">
+            {% csrf_token %}
+            <input class="" id="busqueda" name="busqueda" type="search" value="{{ busqueda }}" placeholder="Ingrese un texto..." aria-label="Buscar" />
+            <button class=" btn btn-outline-secondary" type="submit">Buscar</button>
+          </form>  
+
         </div>
-
-        <div class="card page-header">
-          <div class="page-header-actions">
-            <form class="" method="POST" action="{% url 'persona_buscar' %}">
-              {% csrf_token %}
-              <input class="" id="busqueda" name="busqueda" type="search" placeholder="Buscar" aria-label="Buscar" />
-              <button class=" btn btn-outline-secondary" type="submit">Buscar</button>
-            </form>  
-
-          </div>
-        </div>
-
+      </div>
 
       <div class="page-content container-fluid">
 
@@ -88,13 +92,12 @@
           <div class="panel">
             <div class="panel-body">
 
-              <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead class="table-{{ color_table }}">
+              <div class="">
+                <table class="table">
+                    <thead class="table-default">
                       <tr>
                         <th>#</th>
                         <th>{{ plural|capfirst }}</th>
-                        <th>Acciones</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -105,6 +108,7 @@
                         <td>
 
                         <div class="row">
+                          <div class="col-md-8">
 
                             {% if item.invertir_apellidos == False %}
 
@@ -157,29 +161,28 @@
 
 
                             {% if item.deleted != None %}<div class="card-body border border-danger"><small><strong>Desactivado en:</strong> {{item.deleted}} </small></div>{% endif %}
+                          </div>
+                          <div class="col-md-4 text-center">
+                            <a href="{% url url_ver item.id %}" class="btn btn-outline-secondary btn-round btn-icon" title="Revisar" data-toggle="tooltip" data-original-title="Revisar">
+                              <i class="icon md-view-list-alt" aria-hidden="true"></i></a>
+                            <a href="{% url url_editar item.id %}" class="btn btn-outline-info btn-round btn-icon" title="Editar" data-toggle="tooltip" data-original-title="Editar">
+                              <i class="icon md-edit" aria-hidden="true"></i></a>
+                          {% if item.activo == True %}  
+                            <a href="{% url url_desactivar item.id %}" class="btn btn-outline-warning btn-round btn-icon" title="Desactivar" data-toggle="tooltip" data-original-title="Desactivar">
+                              <i class="icon md-delete" aria-hidden="true"></i></a>
+                          {% else %}  
+                            <a href="{% url url_activar item.id %}" class="btn btn-outline-success btn-round btn-icon" title="Activar" data-toggle="tooltip" data-original-title="Activar">
+                              <i class="icon md-check" aria-hidden="true"></i></a>
+                          {% endif %}  
+                            <a href="{% url url_eliminar item.id %}" class="btn btn-outline-danger btn-round btn-icon" title="Eliminar" data-toggle="tooltip" data-original-title="Eliminar">
+                              <i class="icon md-delete" aria-hidden="true"></i></a>
+                          </div>  
 
                         </div>
                         
 
 
 
-                        </td>
-                        <td> 
-                          <div class="text-center">
-                            <a href="{% url url_ver item.id %}" class="btn btn-primary btn-round btn-icon" title="Revisar" data-toggle="tooltip" data-original-title="Revisar">
-                              <i class="icon md-view-list-alt" aria-hidden="true"></i></a>
-                            <a href="{% url url_editar item.id %}" class="btn btn-info btn-round btn-icon" title="Editar" data-toggle="tooltip" data-original-title="Editar">
-                              <i class="icon md-edit" aria-hidden="true"></i></a>
-                          {% if item.activo == True %}  
-                            <a href="{% url url_desactivar item.id %}" class="btn btn-warning btn-round btn-icon" title="Desactivar" data-toggle="tooltip" data-original-title="Desactivar">
-                              <i class="icon md-delete" aria-hidden="true"></i></a>
-                          {% else %}  
-                            <a href="{% url url_activar item.id %}" class="btn btn-success btn-round btn-icon" title="Activar" data-toggle="tooltip" data-original-title="Activar">
-                              <i class="icon md-check" aria-hidden="true"></i></a>
-                          {% endif %}  
-                            <a href="{% url url_eliminar item.id %}" class="btn btn-danger btn-round btn-icon" title="Eliminar" data-toggle="tooltip" data-original-title="Eliminar">
-                              <i class="icon md-delete" aria-hidden="true"></i></a>
-                          </div>  
                         </td>
                       </tr>
                   {% endfor %} 
@@ -191,11 +194,8 @@
 
       {% else %}
 
-          <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          <div class="alert alert-warning" role="alert">
             No existen registros.  
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
           </div>
 
       {% endif %}
@@ -247,15 +247,15 @@
         <hr />
         <div class="text-right">
                 {% if 'inactiv' in request.path %} 
-          <a href="{% url url_activo_index %}" class="btn btn-success btn-round"><i class="icon md-check" aria-hidden="true"></i> Ver {{ plural }} activos</a>
+          <a href="{% url url_activo_index %}" class="btn btn-outline-success btn-round"><i class="icon md-check" aria-hidden="true"></i> Ver {{ plural }} activos</a>
                 {% else %}  
-          <a href="{% url url_inactivo_index %}" class="btn btn-warning btn-round"><i class="icon md-delete" aria-hidden="true"></i> Ver {{ plural }} inactivos</a>
+          <a href="{% url url_inactivo_index %}" class="btn btn-outline-warning btn-round"><i class="icon md-delete" aria-hidden="true"></i> Ver {{ plural }} inactivos</a>
                 {% endif %}
-          <a href="{% url url_crear %}" class="btn btn-primary btn-round"><i class="icon md-plus-circle" aria-hidden="true"></i> Agregar {{ singular }}</a>
+          <a href="{% url url_crear %}" class="btn btn-outline-secondary btn-round"><i class="icon md-plus-circle" aria-hidden="true"></i> Agregar {{ singular }}</a>
         </div>
       </div>
 
-    </div>
+
 
 
 {% endblock content %}

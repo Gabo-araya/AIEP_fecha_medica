@@ -7,14 +7,15 @@
 
 {% block content %}
 
-    <div class="page">
-      <div class="page-header">
-        <h1 class="page-title"><i class="material-icons">{{ icon }}</i> {{ page }}: {{ item }}</h1>
+      <div class="card page-header">
+        <h2 class="page-title"><i class="material-icons">{{ icon }}</i> {{ page }}: {{ item }}</h2> 
+        <hr/>
+        <p class="card-text">{{ description }}</p>
       </div>
       <div class="page-content">
         <div class="row">
           <div class="col-md-12">
-            <div class="card">
+            <div class="card alert alert-success">
               <div class="card-body">
                 <p class="card-text">Se activará el elemento <strong>{{ singular }}: "{{ item }}". </strong></p>
                 <p class="card-text">{{ description }}</p>
@@ -24,8 +25,8 @@
                   {% csrf_token %}
                     <div class="text-right">
                       <hr />
-                      <a href="javascript: history.go(-1)" class="btn btn-default btn-round"><i class="icon md-undo" aria-hidden="true"></i> Atrás </a>
-                      <button type="submit" class="btn btn-success btn-round"><i class="icon md-check" aria-hidden="true"></i> Activar </button>
+                      <a href="javascript: history.go(-1)" class="btn btn-outline-secondary btn-round"><i class="icon md-undo" aria-hidden="true"></i> Atrás </a>
+                      <button type="submit" class="btn btn-outline-success btn-round"><i class="icon md-check" aria-hidden="true"></i> Activar </button>
                     </div>
                   </form>
 
@@ -34,7 +35,7 @@
           </div>
         </div>
       </div>
-    </div>  
+
 
 {% endblock content %}
 

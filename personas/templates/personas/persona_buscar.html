@@ -8,14 +8,14 @@
 {% block content %}
 
 
-    <div class="page">
+
 
       <div class="page-header">
         <h1 class="page-title"><i class="material-icons">{{ icon }}</i> {{ page }}</h1>
 
         <div class="page-header-actions">
-          <a href="{% url url_activo_index %}" class="btn btn-success btn-round btn-icon" data-toggle="tooltip"><i class="icon md-check" aria-hidden="true"></i> Ver {{ plural }} activos</a>
-          <a href="{% url url_crear %}" class="btn btn-primary btn-round btn-icon" data-toggle="tooltip"><i class="icon md-plus-circle" aria-hidden="true"></i> Agregar {{ singular }}</a>
+          <a href="{% url url_activo_index %}" class="btn btn-outline-success btn-round btn-icon" data-toggle="tooltip"><i class="icon md-check" aria-hidden="true"></i> Ver {{ plural }} activos</a>
+          <a href="{% url url_crear %}" class="btn btn-outline-secondary btn-round btn-icon" data-toggle="tooltip"><i class="icon md-plus-circle" aria-hidden="true"></i> Agregar {{ singular }}</a>
         </div>
       </div>
 
@@ -168,18 +168,18 @@
                             </td>
                             <td> 
                             <div class="text-center">
-                                <a href="{% url url_ver item.id %}" class="btn btn-primary btn-round btn-icon" title="Revisar" data-toggle="tooltip" data-original-title="Revisar">
+                                <a href="{% url url_ver item.id %}" class="btn btn-outline-secondary btn-round btn-icon" title="Revisar" data-toggle="tooltip" data-original-title="Revisar">
                                 <i class="icon md-view-list-alt" aria-hidden="true"></i></a>
-                                <a href="{% url url_editar item.id %}" class="btn btn-info btn-round btn-icon" title="Editar" data-toggle="tooltip" data-original-title="Editar">
+                                <a href="{% url url_editar item.id %}" class="btn btn-outline-info btn-round btn-icon" title="Editar" data-toggle="tooltip" data-original-title="Editar">
                                 <i class="icon md-edit" aria-hidden="true"></i></a>
                             {% if item.activo == True %}  
-                                <a href="{% url url_desactivar item.id %}" class="btn btn-warning btn-round btn-icon" title="Desactivar" data-toggle="tooltip" data-original-title="Desactivar">
+                                <a href="{% url url_desactivar item.id %}" class="btn btn-outline-warning btn-round btn-icon" title="Desactivar" data-toggle="tooltip" data-original-title="Desactivar">
                                 <i class="icon md-delete" aria-hidden="true"></i></a>
                             {% else %}  
-                                <a href="{% url url_activar item.id %}" class="btn btn-success btn-round btn-icon" title="Activar" data-toggle="tooltip" data-original-title="Activar">
+                                <a href="{% url url_activar item.id %}" class="btn btn-outline-success btn-round btn-icon" title="Activar" data-toggle="tooltip" data-original-title="Activar">
                                 <i class="icon md-check" aria-hidden="true"></i></a>
                             {% endif %}  
-                                <a href="{% url url_eliminar item.id %}" class="btn btn-danger btn-round btn-icon" title="Eliminar" data-toggle="tooltip" data-original-title="Eliminar">
+                                <a href="{% url url_eliminar item.id %}" class="btn btn-outline-danger btn-round btn-icon" title="Eliminar" data-toggle="tooltip" data-original-title="Eliminar">
                                 <i class="icon md-delete" aria-hidden="true"></i></a>
                             </div>  
                             </td>
@@ -187,7 +187,6 @@
                     {% endfor %} 
                     </tbody>
                     </table>
-                </div>
                 </div>
             </div>
 
@@ -252,8 +251,8 @@
       <!-- FIN PAGINACION -->
         <hr />
         <div class="text-right">
-          <a href="{% url url_activo_index %}" class="btn btn-success btn-round btn-icon" data-toggle="tooltip"><i class="icon md-check" aria-hidden="true"></i> Ver {{ plural }} activos</a>
-          <a href="{% url url_crear %}" class="btn btn-primary btn-round btn-icon" data-toggle="tooltip"><i class="icon md-plus-circle" aria-hidden="true"></i> Agregar {{ singular }}</a>
+          <a href="{% url url_activo_index %}" class="btn btn-outline-success btn-round btn-icon" data-toggle="tooltip"><i class="icon md-check" aria-hidden="true"></i> Ver {{ plural }} activos</a>
+          <a href="{% url url_crear %}" class="btn btn-outline-secondary btn-round btn-icon" data-toggle="tooltip"><i class="icon md-plus-circle" aria-hidden="true"></i> Agregar {{ singular }}</a>
         </div>
       </div>
 
