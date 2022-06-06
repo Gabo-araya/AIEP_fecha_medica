@@ -97,7 +97,7 @@ if os.getenv('GAE_APPLICATION', None):
             'ENGINE': 'django.db.backends.mysql',
             'HOST': '/cloudsql/taller-calidad-soft-12-2021:southamerica-west1:ficha-medica',
             'USER': 'ficha-medica',
-            'PASSWORD': 'P4l1n.dr0m0?',
+            'PASSWORD': '*********',
             'NAME': 'ficha_medica',
         }
     }
@@ -113,7 +113,7 @@ else:
     #         'PORT': '3306',
     #         'NAME': 'ficha_medica',
     #         'USER': 'ficha-medica',
-    #         'PASSWORD': 'P4l1n.dr0m0?',
+    #         'PASSWORD': '********',
     #     }
     # }
     DATABASES = {
